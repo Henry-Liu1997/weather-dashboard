@@ -8,7 +8,6 @@ const forecast = $('.forecast');
 const listGroup = $('.list-group');
 
 //initialize city array that saved in localstorage
-
 const cities = JSON.parse(localStorage.getItem('cities')) || [];
 
 // initialize with the weather of New York City
@@ -75,7 +74,7 @@ function getCurrentWeather(city) {
     city_wind.text('Wind Speed ' + res.wind.speed + 'MBH');
     city_name.append(
       $(
-        `<img src="http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png"></img>`
+        `<img src="https://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png"></img>`
       )
     );
 
@@ -85,7 +84,7 @@ function getCurrentWeather(city) {
 
     //get the UV value with coord and render it
     $.ajax({
-      url: ` http://api.openweathermap.org/data/2.5/uvi?appid=fc1565ae5865fb70186e4474d124b5f3&units=imperial&lat=${lat}&lon=${lon}`,
+      url: ` https://api.openweathermap.org/data/2.5/uvi?appid=fc1565ae5865fb70186e4474d124b5f3&units=imperial&lat=${lat}&lon=${lon}`,
       method: 'GET',
     }).then((res) =>
       city_UV.html(
@@ -104,7 +103,7 @@ function getCurrentWeather(city) {
 // Function to get the future weather
 function getFutureWeather(city) {
   let baseURL =
-    'http://api.openweathermap.org/data/2.5/forecast?appid=fc1565ae5865fb70186e4474d124b5f3&units=imperial';
+    'https://api.openweathermap.org/data/2.5/forecast?appid=fc1565ae5865fb70186e4474d124b5f3&units=imperial';
 
   $.ajax({
     url: baseURL + `&q=${city}`,
