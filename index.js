@@ -5,19 +5,47 @@ const city_humidity = $('#city_humidity');
 const city_wind = $('#city_wind');
 const city_UV = $('#city_UV');
 const forecast = $('.forecast');
+const listGroup = $('.list-group');
+
+//initialize city array that saved in localstorage
+
+const cities = JSON.parse(localStorage.getItem('cities')) || [];
 
 // initialize with the weather of New York City
 $(document).ready(() => {
+  // render our searching history
+  cities.forEach((city) => {
+    listGroup.prepend(
+      $(`<li class="list-group-item text-capitalize">${city}</li>`)
+    );
+  });
+
   const city = 'New York';
   getCurrentWeather(city);
   getFutureWeather(city);
+
+  // Event Listener on list item been clicked
+  $('.list-group-item').on('click', (e) => {
+    const city = e.target.textContent;
+    getCurrentWeather(city);
+    getFutureWeather(city);
+  });
 });
 
-// Call function to get weather of the city that user searching for
+// Event Listener on submit
 $('form').on('submit', (e) => {
   e.preventDefault();
 
   const city = $('input').val();
+  cities.push(city);
+
+  // save the city name to localStorage
+  localStorage.setItem('cities', JSON.stringify(cities));
+
+  // render search history
+  listGroup.prepend($(`<li class="list-group-item">${city}</li>`));
+
+  // get the weather info
   getCurrentWeather(city);
   getFutureWeather(city);
 });
@@ -95,11 +123,11 @@ function getFutureWeather(city) {
     //render the future weather
     futureWeather.forEach((day) => {
       const weatherCard = $('<div>').addClass(
-        'card col-2.5 bg-primary text-white'
+        'card col-sm-4 col-md-2 bg-primary text-white'
       );
 
       weatherCard.html(`
-      <div class="card-body">
+      <div class="card-body p-md-0 p-sm-1 text-center">
       <h5 class="card-title">${day.dt_txt.slice(0, 10)}</h5>
       <img src="http://openweathermap.org/img/wn/${
         day.weather[0].icon
