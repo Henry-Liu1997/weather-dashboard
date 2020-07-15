@@ -44,6 +44,13 @@ $('form').on('submit', (e) => {
   // render search history
   listGroup.prepend($(`<li class="list-group-item">${city}</li>`));
 
+  // Event Listener on list item been clicked
+  $('.list-group-item').on('click', (e) => {
+    const city = e.target.textContent;
+    getCurrentWeather(city);
+    getFutureWeather(city);
+  });
+
   // get the weather info
   getCurrentWeather(city);
   getFutureWeather(city);
@@ -128,7 +135,7 @@ function getFutureWeather(city) {
       weatherCard.html(`
       <div class="card-body p-md-0 p-sm-1 text-center">
       <h5 class="card-title">${day.dt_txt.slice(0, 10)}</h5>
-      <img src="http://openweathermap.org/img/wn/${
+      <img src="https://openweathermap.org/img/wn/${
         day.weather[0].icon
       }@2x.png"></img>
       <p class="card-text">Temp: ${day.main.temp}℉</p>
